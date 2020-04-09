@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:url_launcher/url_launcher.dart';
+//import 'package:fluid_layout/fluid_layout.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,7 +23,13 @@ class MyApp extends StatelessWidget {
       title: 'Web test',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        //fontFamily: 'UniversNext',
+        //fontFamily: 'UniversNext',
+        fontFamily: 'UniversNextThin',
         textTheme: TextTheme(
+          headline1: TextStyle(
+            color: Colors.black,
+          ),
           headline2: TextStyle(
             color: Colors.white,
           ),
@@ -29,13 +38,12 @@ class MyApp extends StatelessWidget {
           ),
           headline4: TextStyle(
             color: Colors.black,
+            //fontFamily: 'Pacifico',
           ),
           headline5: TextStyle(
             color: Colors.black,
           ),
-          headline6: TextStyle(
-            color: Colors.white,
-          ),
+          headline6: TextStyle(color: Colors.white),
         ),
       ),
       home: WhomePage(),
@@ -77,7 +85,8 @@ class WtopNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
         FlatButton(
           child: Image.asset('asset/hsbc-logo.png'),
@@ -105,7 +114,7 @@ class WtopNavBar extends StatelessWidget {
         ),
         FlatButton(
           child: Text(_mitem6),
-          onPressed:_launchURL,
+          onPressed: _launchURL,
         ),
         FlatButton(
           child: Text(_mitem7),
@@ -132,13 +141,15 @@ class Wrow1 extends StatelessWidget {
             colorBlendMode: BlendMode.darken, color: Colors.black),
         Column(
           children: <Widget>[
-            Text(
+            AutoSizeText(
               _row1Text1,
               style: Theme.of(context).textTheme.headline6,
+              maxLines: 1,
             ),
-            Text(
+            AutoSizeText(
               _row1Text2,
               style: Theme.of(context).textTheme.headline2,
+              maxLines: 2,
             ),
           ],
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,38 +164,72 @@ class Wrow1 extends StatelessWidget {
 }
 
 class Wrow2 extends StatelessWidget {
-  static const _row2Text1 = "We're a globally conneeted community";
+  static const _row2Text1 = "We're a globally connected community";
   static const _row2Text2 =
       "We help our organisation to create frictionless and beautiful customer journey, differented exeriences and personal and relevant fialogue with customers. Whilst we operate in many geographies, we are a single global community. We build a capability once - and delopy this at scale acorss our markets.";
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Flexible(
-          child: Container(
-            child: Text(
-              _row2Text1,
-              style: Theme.of(context).textTheme.headline4,
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        if (constraint.maxWidth > 600) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Flexible(
+                child: Container(
+                  child: AutoSizeText(
+                    _row2Text1,
+                    style: Theme.of(context).textTheme.headline3,
+                    wrapWords: false,
+                  ),
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(30),
+                ),
+              ),
+              Flexible(
+                child: Container(
+                  child: AutoSizeText(_row2Text2,
+                      style: Theme.of(context).textTheme.headline5,
+                      textAlign: TextAlign.justify),
+                  margin: EdgeInsets.all(30),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Container(
+            height: 600,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Flexible(
+                  child: Container(
+                    child: AutoSizeText(
+                      _row2Text1,
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
+                    padding: EdgeInsets.all(20),
+                    margin: EdgeInsets.all(30),
+                  ),
+                ),
+                Flexible(
+                  child: Container(
+                    child: AutoSizeText(_row2Text2,
+                        style: Theme.of(context).textTheme.headline5,
+                        textAlign: TextAlign.justify),
+                    margin: EdgeInsets.all(30),
+                  ),
+                ),
+              ],
             ),
-            padding: EdgeInsets.all(20),
-            margin: EdgeInsets.all(30),
-          ),
-        ),
-        Flexible(
-          child: Container(
-            child: Text(
-              _row2Text2,
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            margin: EdgeInsets.all(30),
-          ),
-        ),
-      ],
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-    );
-  }
-}
+          );
+        }
+      } //builder: (){}
+      ,
+    ); //end LayoutBuilder
+  } //end build()
+} //end Wrow2
 
 class Wrow3 extends StatelessWidget {
   @override
@@ -206,80 +251,243 @@ class Wrow4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Flexible(
-          child: Container(
-            child: Text(
-              _row4Text1,
-              style: Theme.of(context).textTheme.headline4,
+    return LayoutBuilder(builder: (context, constraint) {
+      if (constraint.maxWidth > 600) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Flexible(
+              child: Container(
+                child: AutoSizeText(
+                  _row4Text1,
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+                margin: EdgeInsets.all(30),
+              ),
             ),
-            margin: EdgeInsets.all(30),
+            Flexible(
+              child: Container(
+                child: AutoSizeText(
+                  _row4Text2,
+                  style: Theme.of(context).textTheme.subtitle1,
+                  textAlign: TextAlign.justify,
+                ),
+                margin: EdgeInsets.all(30),
+              ),
+            )
+          ],
+        );
+      } else {
+        return Container(
+          height: 600,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Container(
+                  child: AutoSizeText(
+                    _row4Text1,
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  margin: EdgeInsets.all(30),
+                ),
+              ),
+              Expanded(
+                flex: 5,
+                child: Container(
+                  child: AutoSizeText(
+                    _row4Text2,
+                    style: Theme.of(context).textTheme.subtitle1,
+                    textAlign: TextAlign.justify,
+                  ),
+                  margin: EdgeInsets.all(30),
+                ),
+              )
+            ],
           ),
-        ),
-        Flexible(
-          child: Container(
-            child: Text(
-              _row4Text2,
-              style: Theme.of(context).textTheme.subtitle1,
-              textAlign: TextAlign.justify,
-            ),
-            margin: EdgeInsets.all(30),
-          ),
-        )
-      ],
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-    );
-  }
-}
+        );
+      }
+    });
+  } //end build()
+} //end of Wrow4
 
 class Wrow5 extends StatelessWidget {
-  static const _row5Text1 = """1200
-  people""";
-  static const _row5Text2 = """30
-  internal makets""";
-  static const _row5Text3 = """3 
-  offshor centres""";
+  static const _row5Text1_1 = "1200";
+  static const _row5Text1_2 = "people";
+  static const _row5Text2_1 = "30";
+  static const _row5Text2_2 = "internal makets";
+  static const _row5Text3_1 = "3";
+  static const _row5Text3_2 = "offshore centres";
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Flexible(
-                  child: Container(
-              child: Text(
-                _row5Text1,
-                style: Theme.of(context).textTheme.headline4,
-                textAlign: TextAlign.center,
+    return LayoutBuilder(builder: (context, constraint) {
+      if (constraint.maxWidth > 600) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Flexible(
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    AutoSizeText(
+                      _row5Text1_1,
+                      style: Theme.of(context).textTheme.headline1,
+                      textAlign: TextAlign.center,
+                      wrapWords: false,
+                      maxLines: 1,
+                    ),
+                    AutoSizeText(
+                      _row5Text1_2.toUpperCase(),
+                      style: Theme.of(context).textTheme.headline4,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.all(20),
               ),
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(20)),
-        ),
-        Flexible(
-                  child: Container(
-              child: Text(
-                _row5Text2,
-                style: Theme.of(context).textTheme.headline4,
-                textAlign: TextAlign.center,
+            ),
+            Flexible(
+              child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      AutoSizeText(
+                        _row5Text2_1,
+                        style: Theme.of(context).textTheme.headline1,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      AutoSizeText(
+                        _row5Text2_2.toUpperCase(),
+                        style: Theme.of(context).textTheme.headline4,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20)),
+            ),
+            Flexible(
+              child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      AutoSizeText(
+                        _row5Text3_1,
+                        style: Theme.of(context).textTheme.headline1,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      AutoSizeText(
+                        _row5Text3_2.toUpperCase(),
+                        style: Theme.of(context).textTheme.headline4,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20)),
+            ),
+          ],
+        );
+      } else {
+        return Container(
+          height: 800,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Flexible(
+                child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: AutoSizeText(
+                            _row5Text1_1,
+                            style: Theme.of(context).textTheme.headline1,
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Expanded(
+                          child: AutoSizeText(
+                            _row5Text1_2.toUpperCase(),
+                            style: Theme.of(context).textTheme.headline4,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.all(20),
+                    margin: EdgeInsets.all(20)),
               ),
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(20)),
-        ),
-        Flexible(
-                  child: Container(
-              child: Text(
-                _row5Text3,
-                style: Theme.of(context).textTheme.headline4,
-                textAlign: TextAlign.center,
+              Flexible(
+                child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: AutoSizeText(
+                            _row5Text2_1,
+                            style: Theme.of(context).textTheme.headline1,
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Expanded(
+                          child: AutoSizeText(
+                            _row5Text2_2.toUpperCase(),
+                            style: Theme.of(context).textTheme.headline4,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.all(20),
+                    margin: EdgeInsets.all(20)),
               ),
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(20)),
-        ),
-      ],
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    );
-  }
-}
+              Flexible(
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      AutoSizeText(
+                        _row5Text3_1,
+                        style: Theme.of(context).textTheme.headline1,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      AutoSizeText(
+                        _row5Text3_2.toUpperCase(),
+                        style: Theme.of(context).textTheme.headline4,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20),
+                ),
+              ),
+            ],
+          ),
+        );
+      } //end else
+    } // builder unction
+        ); //LayoutBuilder
+  } //end build()
+
+} //end Wrow5
 
 class Wrow6 extends StatelessWidget {
   static const _row6Text1 =
@@ -287,25 +495,68 @@ class Wrow6 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Container(
-          child: Image.asset('asset/row6-img.jpg'),
-                    padding: EdgeInsets.all(20),
-            margin: EdgeInsets.all(20)),
-       
-        Flexible(
-          child: Container(
-            child: Text(
-              _row6Text1,
-              style: Theme.of(context).textTheme.headline5,
-              textAlign: TextAlign.justify,
-            ),
-            padding: EdgeInsets.all(20),
-            margin: EdgeInsets.all(20),
-            alignment: Alignment.centerLeft,),
-        ),
-      ],
+    return Container(
+      height: 800.0,
+      child: LayoutBuilder(
+        builder: (BuildContext ctx, BoxConstraints constraint) {
+          if (constraint.maxWidth > 600) {
+            return Row(
+                verticalDirection: VerticalDirection.down,
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      // width: MediaQuery.of(context).size.width * 0.5,
+                      child: Image.asset('asset/row6-img.jpg',
+                          fit: BoxFit.contain),
+                      //padding: EdgeInsets.all(20),
+                      margin: EdgeInsets.all(10),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: AutoSizeText(
+                        _row6Text1,
+                        style: Theme.of(context).textTheme.headline5,
+                        textAlign: TextAlign.justify,
+                        maxLines: 20,
+                        overflow: TextOverflow.fade,
+                      ),
+                      padding: EdgeInsets.all(20),
+                      margin: EdgeInsets.all(20),
+                      alignment: Alignment.centerLeft,
+                    ),
+                  ),
+                ]);
+          } else {
+            return Column(children: <Widget>[
+              Expanded(
+                child: Container(
+                  // width: MediaQuery.of(context).size.width * 0.5,
+                  child: Image.asset('asset/row6-img.jpg', fit: BoxFit.contain),
+                  //padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(10),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  child: AutoSizeText(
+                    _row6Text1,
+                    style: Theme.of(context).textTheme.headline5,
+                    textAlign: TextAlign.justify,
+                    maxLines: 20,
+                    overflow: TextOverflow.fade,
+                  ),
+                  padding: EdgeInsets.all(20),
+                  margin: EdgeInsets.all(20),
+                  alignment: Alignment.centerLeft,
+                ),
+              ),
+            ]);
+          }
+        },
+      ),
     );
   }
 }
